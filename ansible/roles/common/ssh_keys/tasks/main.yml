@@ -1,0 +1,29 @@
+---
+# tasks/main.yml
+
+- name: Ensure .ssh directory exists
+  file:
+    path: "/home/{{ item }}/.ssh"
+    state: directory
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: '0700'
+  loop: "{{ ssh_keys.keys() }}"
+
+- name: Deploy SSH public keys
+  authorized_key:
+    user: "{{ item }}"
+    state: present
+    key: "{{ ssh_keys[item]['public_key'] }}"
+  loop: "{{ ssh_keys.keys() }}"
+  when: ssh_keys[item]['public_key'] is defined
+
+- name: Deploy SSH private key
+  copy:
+    dest: "/home/{{ item }}/.ssh/id_rsa"
+    content: "{{ ssh_keys[item]['private_key'] }}"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: '0600'
+  loop: "{{ ssh_keys.keys() }}"
+  when: ssh_keys[item]['private_key'] is defined

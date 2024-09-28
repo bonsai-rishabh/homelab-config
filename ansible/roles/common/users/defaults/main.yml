@@ -1,0 +1,11 @@
+# defaults/main.yml
+
+users_list:
+  - name: rishabh
+    groups: sudo
+    shell: /bin/bash
+    create_home: yes
+  - name: ansible
+    groups: sudo
+    shell: /bin/bash
+    create_home: yes

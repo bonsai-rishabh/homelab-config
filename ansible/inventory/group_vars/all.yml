@@ -1,0 +1,5 @@
+sudoers_users:
+  - name: rishabh
+    privileges: "ALL=(ALL) ALL"
+  - name: ansible
+    privileges: "ALL=(ALL) NOPASSWD:ALL"

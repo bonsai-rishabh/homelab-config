@@ -1,0 +1,12 @@
+---
+# tasks/main.yml
+
+- name: Ensure users are present
+  user:
+    name: "{{ item.name }}"
+    state: present
+    groups: "{{ item.groups | default(omit) }}"
+    append: yes
+    shell: "{{ item.shell | default('/bin/bash') }}"
+    create_home: "{{ item.create_home | default('yes') }}"
+  loop: "{{ users_list }}"
